@@ -13,13 +13,12 @@ jobs:
       uses: actions/checkout@v4
     
     - name: Build APK using Buildozer Docker
-      working-directory: mobile
       run: |
+        cd mobile
         docker run --rm \
-          -v "$(pwd):/home/user/app" \
-          -w /home/user/app \
+          -v "$PWD:/home/user/app" \
           kivy/buildozer:latest \
-          buildozer android debug
+          bash -c "cd /home/user/app && buildozer android debug"
     
     - name: Upload APK
       uses: actions/upload-artifact@v4
