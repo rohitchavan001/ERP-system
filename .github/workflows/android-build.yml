@@ -1,0 +1,29 @@
+name: Build Mobile APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+    
+    - name: Build APK using Buildozer Docker
+      working-directory: mobile
+      run: |
+        docker run --rm \
+          -v "$(pwd):/home/user/app" \
+          -w /home/user/app \
+          kivy/buildozer:latest \
+          buildozer android debug
+    
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: ERP-Mobile-APK
+        path: mobile/bin/*.apk
+        if-no-files-found: error
