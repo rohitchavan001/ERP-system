@@ -5,20 +5,44 @@ on:
 
 jobs:
   build-apk:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     timeout-minutes: 90
     
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
     
-    - name: Build APK using Buildozer Docker
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+    
+    - name: Install System Dependencies
       run: |
-        cd mobile
-        docker run --rm \
-          -v "$PWD:/home/user/app" \
-          kivy/buildozer:latest \
-          bash -c "cd /home/user/app && sed -i 's/self.check_root()/#self.check_root()/g' /home/user/.venv/lib/python3.12/site-packages/buildozer/__init__.py && buildozer android debug"
+        sudo apt-get update
+        sudo apt-get install -y \
+          openjdk-11-jdk \
+          autoconf \
+          libtool \
+          pkg-config \
+          zlib1g-dev \
+          libncurses5-dev \
+          libncursesw5-dev \
+          cmake \
+          libffi-dev \
+          libssl-dev \
+          zip \
+          unzip
+    
+    - name: Install Buildozer
+      run: |
+        pip install --upgrade pip
+        pip install buildozer==1.5.0 cython==0.29.33
+    
+    - name: Build APK
+      working-directory: mobile
+      run: |
+        buildozer android debug
     
     - name: Upload APK
       uses: actions/upload-artifact@v4
