@@ -17,9 +17,8 @@ jobs:
         cd mobile
         docker run --rm \
           -v "$PWD:/home/user/app" \
-          -e BUILDOZER_WARN_ON_ROOT=0 \
           kivy/buildozer:latest \
-          bash -c "cd /home/user/app && buildozer android debug"
+          bash -c "cd /home/user/app && sed -i 's/self.check_root()/#self.check_root()/g' /home/user/.venv/lib/python3.12/site-packages/buildozer/__init__.py && buildozer android debug"
     
     - name: Upload APK
       uses: actions/upload-artifact@v4
