@@ -1,0 +1,6 @@
+kivy==2.3.0
+kivymd==1.1.1
+Pillow==10.2.0
+python-dateutil==2.8.2
+qrcode==7.4.2
+requests==2.31.0

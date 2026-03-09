@@ -1,0 +1,20 @@
+# ERP-System - Python Dependencies
+# These are the exact versions tested and working
+# Install with: pip install -r requirements.txt
+
+# Image processing
+Pillow==10.2.0
+
+# Date utilities
+python-dateutil==2.8.2
+
+# Calendar widget for Tkinter
+tkcalendar==1.6.1
+
+# QR code generation
+qrcode==7.4.2
+
+# Additional dependencies (automatically installed with above)
+colorama==0.4.6
+six==1.16.0
+pypng==0.20220715.0
